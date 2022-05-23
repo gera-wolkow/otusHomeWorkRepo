@@ -30,51 +30,28 @@ public class L08HomeWork {
         Question[] questions = {questionOne, questionTwo, questionThree, questionFour};
 
         Quiz quiz = new Quiz(quizName, questions);
-        startQuiz(quiz);
-        for(int i = 0; i < quiz.questions.length; i++) {
-            setResult(quiz, askQuestion(quiz.questions[i]));
-        }
-        finishQuiz(quiz);
+        quiz.startQuiz();
+        quiz.askQuestions();
+        quiz.finishQuiz();
     }
 
-    public static void startQuiz (Quiz quiz) {
+    static String getInputString() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Пожалуйста, введите свое имя.");
-        quiz.userName = scanner.nextLine();
-        System.out.println("Тест: " + quiz.quizName);
+        return scanner.nextLine();
     }
 
-    public static boolean askQuestion(Question question) {
+    static Integer getInputInt() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println(question.question);
-        System.out.println("Варианты ответов: ");
-        for(int i = 0; i < question.answers.length; i++) {
-            System.out.println( (i + 1) + ". " + question.answers[i]);
+        int input = -10;
+        try {
+            input = Integer.parseInt(scanner.nextLine());
+        } catch (Exception e) {
+            displayStringToUser("Неправильный формат ввода. Ожидаются цифры");
         }
-        System.out.println("Ваш ответ: ");
-        int answer = scanner.nextInt();
-        if(answer == question.correctAnswer && answer <= question.answers.length && answer > 0){
-            System.out.println("Правильно!");
-            return true;
-        } else if(answer != question.correctAnswer && answer <= question.answers.length && answer > 0) {
-            System.out.println("Неправильно!");
-            return false;
-        } else {
-            System.out.println("Такого варианта нет в списке.");
-            return false;
-        }
+        return input;
     }
 
-    public static void setResult(Quiz quiz, boolean result) {
-        if(result) {
-            quiz.allCorrectAnswers ++;
-        } else {
-            quiz.allIncorrectAnswers++;
-        }
-    }
-
-    public static void finishQuiz (Quiz quiz) {
-        System.out.println(quiz.userName + ", Вы прошли тест.");
-        System.out.println("Ваш результат: правильно " + quiz.allCorrectAnswers + ", неправильно " + quiz.allIncorrectAnswers);
+    static void displayStringToUser(String string) {
+        System.out.println(string);
     }
 }
